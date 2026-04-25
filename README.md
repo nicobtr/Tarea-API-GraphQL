@@ -12,7 +12,7 @@ Por otro lado, la API de El Señor de los Anillos devuelve las peliculas que se 
 
 ## ¿Usa token? ¿Qué tipo?
 
-La API de El Señor de los Anillos usa un Bearer Token. A diferencia del lab, aquí no hay un flujo de login mediante POST — el token se obtiene registrándose manualmente en la web y se usa directamente en el header Authorization: Bearer <token> de cada request.
+La API de El Señor de los Anillos usa un Bearer Token. A diferencia del lab, aquí no hay un flujo de login mediante POST, el token se obtiene registrándose manualmente en la web y se usa directamente en el header Authorization: Bearer <token> de cada request.
 
 ## ¿Qué código de estado recibiste en cada request?
 
