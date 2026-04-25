@@ -17,7 +17,7 @@ La API de El Señor de los Anillos usa un Bearer Token. A diferencia del lab, aq
 ## ¿Qué código de estado recibiste en cada request?
 
 En la mayoria de los request recibí el código de estado 200 OK el cual significa que la request fue recibida y procesada de forma exitosa por el servidor, esto sucedió para la mayoría de los GET, para el DELETE, PUT y PATCH.
-Para el request con POST recibió el código de estado 201 Created indicando que el recurso que la request fue procesada de forma exitosa y el recurso se creó en el servidor (aunque realmente no se creó porque es una API de prueba). 
+Para el request con POST recibí el código de estado 201 Created indicando que la request fue procesada de forma exitosa y el recurso se creó en el servidor (aunque realmente no se creó porque es una API de prueba). 
 Para la request GET /movie con la API de El Señor de los Anillos sin utilizar token, el servidor me devolvía en el response un código de estado 401 Unauthorized indicando que no estoy autenticado y por lo tanto no puedo acceder al recurso porque el servidor no sabe quien soy. 
 
 ## ¿Qué aprendiste diferente a JSONPlaceholder?
