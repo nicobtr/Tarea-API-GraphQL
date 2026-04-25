@@ -1,0 +1,277 @@
+{
+  "info": {
+    "_postman_id": "3270998b-c0f4-470a-9a3b-376921937dd0",
+    "name": "Tarea GraphQL - Nicolás Urrego Botero",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23617243"
+  },
+  "item": [
+    {
+      "name": "Mostrar paises",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200 OK', function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test('Devuelve una lista de países', function () {\r",
+              "    const body = pm.response.json();\r",
+              "    pm.expect(body.data.countries).to.be.an('array');\r",
+              "    pm.expect(body.data.countries.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test('Cada país tiene nombre, capital y moneda', function () {\r",
+              "    const countries = pm.response.json().data.countries;\r",
+              "    countries.forEach(function(country) {\r",
+              "        pm.expect(country).to.have.property('name');\r",
+              "        pm.expect(country).to.have.property('capital');\r",
+              "        pm.expect(country).to.have.property('currency');\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "graphql",
+          "graphql": {
+            "query": "{\r\n  countries {\r\n    name\r\n    capital\r\n    currency\r\n  }\r\n}",
+            "variables": ""
+          }
+        },
+        "url": {
+          "raw": "{{graphql_base_url}}/graphql",
+          "host": [
+            "{{graphql_base_url}}"
+          ],
+          "path": [
+            "graphql"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Un pais especifico - Query con filtro por argumento",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200 OK', function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test('Devuelve Colombia correctamente', function () {\r",
+              "    const country = pm.response.json().data.country;\r",
+              "    pm.expect(country.name).to.eql('Colombia');\r",
+              "    pm.expect(country.capital).to.eql('Bogotá');\r",
+              "});\r",
+              "\r",
+              "pm.test('Tiene todos los campos pedidos', function () {\r",
+              "    const country = pm.response.json().data.country;\r",
+              "    pm.expect(country).to.have.property('currency');\r",
+              "    pm.expect(country).to.have.property('phone');\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "graphql",
+          "graphql": {
+            "query": "{\r\n  country(code: \"CO\") {\r\n    name\r\n    capital\r\n    currency\r\n    phone\r\n  }\r\n}",
+            "variables": ""
+          }
+        },
+        "url": {
+          "raw": "{{graphql_base_url}}/graphql",
+          "host": [
+            "{{graphql_base_url}}"
+          ],
+          "path": [
+            "graphql"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Un pais y sus idiomas - Query anidada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200 OK', function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test('Devuelve Japón con sus idiomas', function () {\r",
+              "    const country = pm.response.json().data.country;\r",
+              "    pm.expect(country.name).to.eql('Japan');\r",
+              "    pm.expect(country.languages).to.be.an('array');\r",
+              "    pm.expect(country.languages.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test('Cada idioma tiene nombre y versión nativa', function () {\r",
+              "    const languages = pm.response.json().data.country.languages;\r",
+              "    languages.forEach(function(lang) {\r",
+              "        pm.expect(lang).to.have.property('name');\r",
+              "        pm.expect(lang).to.have.property('native');\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "graphql",
+          "graphql": {
+            "query": "{\r\n  country(code: \"JP\") {\r\n    name\r\n    capital\r\n    languages {\r\n      name\r\n      native\r\n    }\r\n  }\r\n}",
+            "variables": ""
+          }
+        },
+        "url": {
+          "raw": "{{graphql_base_url}}/graphql",
+          "host": [
+            "{{graphql_base_url}}"
+          ],
+          "path": [
+            "graphql"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Mostrar continentes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200 OK', function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test('Devuelve exactamente 7 continentes', function () {\r",
+              "    const continents = pm.response.json().data.continents;\r",
+              "    pm.expect(continents).to.be.an('array');\r",
+              "    pm.expect(continents.length).to.eql(7);\r",
+              "});\r",
+              "\r",
+              "pm.test('Cada continente tiene nombre y código', function () {\r",
+              "    const continents = pm.response.json().data.continents;\r",
+              "    continents.forEach(function(continent) {\r",
+              "        pm.expect(continent).to.have.property('name');\r",
+              "        pm.expect(continent).to.have.property('code');\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "graphql",
+          "graphql": {
+            "query": "{\r\n  continents {\r\n    name\r\n    code\r\n  }\r\n}",
+            "variables": ""
+          }
+        },
+        "url": {
+          "raw": "{{graphql_base_url}}/graphql",
+          "host": [
+            "{{graphql_base_url}}"
+          ],
+          "path": [
+            "graphql"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Un continente con sus paises - Query anidada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status 200 OK', function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test('Devuelve Sudamérica con sus países', function () {\r",
+              "    const continent = pm.response.json().data.continent;\r",
+              "    pm.expect(continent.name).to.eql('South America');\r",
+              "    pm.expect(continent.countries).to.be.an('array');\r",
+              "    pm.expect(continent.countries.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test('Cada país tiene nombre, capital y moneda', function () {\r",
+              "    const countries = pm.response.json().data.continent.countries;\r",
+              "    countries.forEach(function(country) {\r",
+              "        pm.expect(country).to.have.property('name');\r",
+              "        pm.expect(country).to.have.property('capital');\r",
+              "        pm.expect(country).to.have.property('currency');\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "graphql",
+          "graphql": {
+            "query": "{\r\n  continent(code: \"SA\") {\r\n    name\r\n    countries {\r\n      name\r\n      capital\r\n      currency\r\n    }\r\n  }\r\n}",
+            "variables": ""
+          }
+        },
+        "url": {
+          "raw": "{{graphql_base_url}}/graphql",
+          "host": [
+            "{{graphql_base_url}}"
+          ],
+          "path": [
+            "graphql"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
